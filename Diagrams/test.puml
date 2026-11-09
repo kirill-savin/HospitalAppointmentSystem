@@ -1,0 +1,13 @@
+@startuml
+digraph sequenceDiagramExample {
+ bobHead [ label="Bob" pos="0,1.5!" shape="record" ];
+ bobPoint0 [ pos="0,0.75!" shape="point" width="0" ]
+ bobFoot [ label="Bob" pos="0,0!" shape="record" ];
+ aliceHead [ label="Alice" pos="1,1.5!" shape="record" ];
+ alicePoint0 [ pos="1,0.75!" shape="point" width="0" ]
+ aliceFoot [ label="Alice" pos="1,0!" shape="record" ];
+ bobHead -> bobPoint0 -> bobFoot [ dir="none" style="dashed" ]
+ aliceHead -> alicePoint0 -> aliceFoot [ dir="none" style="dashed" ]
+ bobPoint0 -> alicePoint0 [ label="hello" labelloc="c" style="solid" ]
+}
+@enduml

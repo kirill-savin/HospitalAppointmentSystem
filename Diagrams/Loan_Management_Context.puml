@@ -1,0 +1,78 @@
+@startuml
+
+title Loan Management Context
+
+skinparam class {
+  BackgroundColor<<Aggregate Root>> #FFE0B2
+  BorderColor<<Aggregate Root>> #E65100
+
+  BackgroundColor<<Entity>> #C8E6C9
+  BorderColor<<Entity>> #2E7D32
+
+  BackgroundColor<<Value Object>> #B3E5FC
+  BorderColor<<Value Object>> #01579B
+}
+
+abstract class Loan <<Aggregate Root>> {
+  - loanId : LoanId
+  - borrowerId : MemberId
+  - itemId : ItemId
+  - loanPeriod : LoanPeriod
+  - renewalCount : RenewalCount
+  - money : Money
+  - status : Status
+}
+
+class LoanId <<Value Object>> {
+    - value : UUID
+    --
+    + generate() : LoanId
+}
+
+class LoanPeriod <<Value Object>> {
+    - startDate : String
+    - dueDate : String
+    --
+    + isOverdue() : boolean
+}
+
+class RenewalCount <<Value Object>> {
+    - value : int
+}
+
+class Money <<Value Object>> {
+    - value : int
+}
+
+enum status <<Enumeration>> {
+    ACTIVE
+    RETURNED
+    OVERDUE
+    LOST
+}
+
+Loan *-- LoanId
+Loan *-- LoanPeriod
+Loan *-- RenewalCount
+Loan *-- status
+Loan *-- Money
+
+
+
+legend right
+  |= Color |= Element |
+  |<#FFE0B2> | **Aggregate Root** |
+  |<#C8E6C9> | **Entity** |
+  |<#B3E5FC> | **Value Object** |
+  |<#F5F5F5> | **Enumeration** |
+  --
+  <color:#E65100>Aggregate Root:</color>
+  The entry point to an aggregate and the only
+  object referenced from outside the aggregate.
+  --
+  <color:#01579B>Value Object:</color>
+  An immutable object defined by its values,
+  without an independent identity.
+endlegend
+
+@enduml

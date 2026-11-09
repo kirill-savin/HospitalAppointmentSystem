@@ -1,0 +1,89 @@
+@startuml
+
+title Collection Management Context
+
+skinparam class {
+  BackgroundColor<<Aggregate Root>> #FFE0B2
+  BorderColor<<Aggregate Root>> #E65100
+
+  BackgroundColor<<Entity>> #C8E6C9
+  BorderColor<<Entity>> #2E7D32
+
+  BackgroundColor<<Value Object>> #B3E5FC
+  BorderColor<<Value Object>> #01579B
+}
+
+abstract class LibraryItem <<Aggregate Root>> {
+  - itemId : int
+  - title : String
+  - status : String
+  - publicationYear : PublicationYear
+}
+
+class Book <<Entity>> {
+    - isbn : ISBN
+    - author : Author
+}
+
+class AudioMaterial <<Entity>> {
+    - duration : Duration
+    - narrator : Author
+}
+
+class VideoMaterial <<Entity>> {
+    - duration : Duration
+    - format : MaterialFormat
+    - ageRating : String
+}
+
+class ISBN <<Value Object>> {
+    - value : String
+}
+
+class Author <<Value Object>> {
+    - value : String
+}
+
+class Duration <<Value Object>> {
+    - value : int
+}
+
+class PublicationYear <<Value Object>> {
+    - value : int
+}
+
+class MaterialFormat <<Value Object>> {
+    - value : String
+}
+
+LibraryItem <|-- Book
+LibraryItem <|-- AudioMaterial
+LibraryItem <|-- VideoMaterial
+LibraryItem *-- PublicationYear
+
+Book *-- ISBN
+Book *-- Author
+
+AudioMaterial *-- Duration
+AudioMaterial *-- Author
+
+VideoMaterial *-- Duration
+VideoMaterial *-- MaterialFormat
+
+legend right
+  |= Color |= Element |
+  |<#FFE0B2> | **Aggregate Root** |
+  |<#C8E6C9> | **Entity** |
+  |<#B3E5FC> | **Value Object** |
+  |<#F5F5F5> | **Enumeration** |
+  --
+  <color:#E65100>Aggregate Root:</color>
+  The entry point to an aggregate and the only
+  object referenced from outside the aggregate.
+  --
+  <color:#01579B>Value Object:</color>
+  An immutable object defined by its values,
+  without an independent identity.
+endlegend
+
+@enduml

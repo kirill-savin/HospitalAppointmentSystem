@@ -1,0 +1,80 @@
+@startuml
+title Member Management Context
+
+skinparam class {
+  BackgroundColor<<Aggregate Root>> #FFE0B2
+  BorderColor<<Aggregate Root>> #E65100
+
+  BackgroundColor<<Entity>> #C8E6C9
+  BorderColor<<Entity>> #2E7D32
+
+  BackgroundColor<<Value Object>> #B3E5FC
+  BorderColor<<Value Object>> #01579B
+}
+
+class Member <<Aggregate Root>> {
+  - memberId : MemberId
+  - name : MemberName
+  - email : Email
+  - tier : MembershipTier
+  - status : MemberStatus
+  - activeLoanCount : int
+  - registrationDate : LocalDate
+  --
+  + canBorrow() : boolean
+  + incrementLoanCount() : void
+  + decrementLoanCount() : void
+  + suspend() : void
+  + reinstate() : void
+}
+
+class MemberId <<Value Object>> {
+  - value : UUID
+  --
+  + generate() : MemberId
+}
+
+class MemberName <<Value Object>> {
+  - firstName : String
+  - lastName : String
+  --
+  + fullName() : String
+}
+
+class Email <<Value Object>> {
+  - value : String
+}
+
+enum MembershipTier {
+  STANDARD
+  PREMIUM
+}
+
+enum MemberStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+Member *-- MemberId
+Member *-- MemberName
+Member *-- Email
+Member *-- MembershipTier
+Member *-- MemberStatus
+
+legend right
+  |= Color |= Element |
+  |<#FFE0B2> | **Aggregate Root** |
+  |<#C8E6C9> | **Entity** |
+  |<#B3E5FC> | **Value Object** |
+  |<#F5F5F5> | **Enumeration** |
+  --
+  <color:#E65100>Aggregate Root:</color>
+  The entry point to an aggregate and the only
+  object referenced from outside the aggregate.
+  --
+  <color:#01579B>Value Object:</color>
+  An immutable object defined by its values,
+  without an independent identity.
+endlegend
+
+@enduml

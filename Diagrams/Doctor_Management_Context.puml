@@ -1,0 +1,66 @@
+@startuml
+
+title Doctor Context
+
+skinparam class {
+  BackgroundColor<<Aggregate Root>> #FFE0B2
+  BorderColor<<Aggregate Root>> #E65100
+
+  BackgroundColor<<Entity>> #C8E6C9
+  BorderColor<<Entity>> #2E7D32
+
+  BackgroundColor<<Value Object>> #B3E5FC
+  BorderColor<<Value Object>> #01579B
+}
+
+class Doctor <<Aggregate Root>> {
+    - doctorId : DoctorId
+    - firstName : FirstName
+    - lastName : LastName
+    - spec : Specialization
+    ---
+    +makeAppointment(patient : PatientId, date : LocalDate, office : Location) : Appointment
+}
+
+
+
+class FirstName <<Value Object>> {
+    - value : String
+}
+
+class LastName <<Value Object>> {
+    - value : String
+}
+
+enum Specialization {
+    SURGEON
+    PSYCHIATRIST
+    PEDIATRICIAN
+    PATHOLOGIST
+    GYNECOLOGIST
+    NEUROLOGIST
+    PARAMEDIC
+    CARDIOLOGIST
+}
+
+Doctor *-- FirstName
+Doctor *-- LastName
+Doctor *-- Specialization
+
+legend right
+  |= Color |= Element |
+  |<#FFE0B2> | **Aggregate Root** |
+  |<#C8E6C9> | **Entity** |
+  |<#B3E5FC> | **Value Object** |
+  |<#F5F5F5> | **Enumeration** |
+  --
+  <color:#E65100>Aggregate Root:</color>
+  The entry point to an aggregate and the only
+  object referenced from outside the aggregate.
+  --
+  <color:#01579B>Value Object:</color>
+  An immutable object defined by its values,
+  without an independent identity.
+end legend
+
+@enduml
